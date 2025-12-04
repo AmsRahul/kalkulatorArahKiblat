@@ -161,14 +161,6 @@ export default function BuildingOrientationMap({
 
   return (
     <div>
-      <h3 className="text-xl font-bold mb-2">
-        Aplikasi Pengukur Orientasi Bangunan
-      </h3>
-      <p className="mb-4 text-sm text-gray-600">
-        Instruksi: Klik **Titik Awal** (P1) lalu klik **Titik Akhir** (P2) pada
-        fasad bangunan di citra satelit. Arah dihitung dari P1 ke P2.
-      </p>
-
       <MapContainer
         center={INDONESIA_CENTER}
         zoom={5}
