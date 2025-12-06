@@ -281,15 +281,20 @@ const QiblaCalculator: React.FC = () => {
           <div className="space-y-6">
             {/* Input Card */}
             <Card className="border-2 border-border shadow-lg">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-primary">
+              <CardHeader className="p-4 pb-4">
+                {" "}
+                {/* Padding yang lebih responsif */}
+                <CardTitle className="flex items-center gap-2 text-primary text-lg md:text-xl">
                   <MapPin className="w-5 h-5" />
                   Koordinat & Arah Bangunan
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Input Koordinat Desimal */}
-                <div className="grid grid-cols-2 gap-4">
+              <CardContent className="space-y-6 p-4 pt-0">
+                {" "}
+                {/* Padding dan spacing yang lebih baik */}
+                {/* Input Koordinat Desimal - Gunakan grid-cols-1 pada layar kecil */}
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-4">
+                  {/* Input Lintang (Latitude) */}
                   <div className="space-y-2">
                     <Label htmlFor="latitude">Lintang (Latitude)</Label>
                     <Input
@@ -302,6 +307,7 @@ const QiblaCalculator: React.FC = () => {
                       className="font-mono"
                     />
                   </div>
+                  {/* Input Bujur (Longitude) */}
                   <div className="space-y-2">
                     <Label htmlFor="longitude">Bujur (Longitude)</Label>
                     <Input
@@ -315,29 +321,28 @@ const QiblaCalculator: React.FC = () => {
                     />
                   </div>
                 </div>
-
-                {/* Tombol Aksi Koordinat */}
-                <div className="flex gap-2">
+                {/* Tombol Aksi Koordinat - Tombol memenuhi lebar penuh di seluler, dan dipisahkan menjadi dua baris jika perlu */}
+                <div className="flex flex-col sm:flex-row gap-2">
+                  {" "}
+                  {/* Tumpuk di seluler, berdampingan di desktop */}
                   <Button
                     onClick={() => setIsMapPickerOpen(true)}
-                    className="flex-1"
+                    className="w-full sm:flex-1" // Lebar penuh di seluler
                     variant="outline"
                   >
                     <MapPin className="w-4 h-4 mr-2" />
                     Pilih dari Peta
                   </Button>
-                </div>
                   <Button
                     onClick={() => setIsDMSInputOpen(true)}
-                    className="flex-2"
+                    className="w-full sm:flex-1" // Lebar penuh di seluler
                     variant="outline"
                   >
                     <Hand className="w-4 h-4 mr-2" />
                     Manual (DMS)
                   </Button>
-
+                </div>
                 <Separator />
-
                 {/* Input Arah Bangunan */}
                 <div className="space-y-2">
                   <Label htmlFor="building">Arah Bangunan (° dari Utara)</Label>
@@ -351,7 +356,7 @@ const QiblaCalculator: React.FC = () => {
                     className="font-mono"
                   />
                 </div>
-                {/* Tombol untuk BuildingOrientationMap */}
+                {/* Tombol untuk BuildingOrientationMap - Sudah w-full, bagus. */}
                 <Button
                   onClick={() => setIsBuildingOrientationOpen(true)}
                   className="w-full"
@@ -365,72 +370,142 @@ const QiblaCalculator: React.FC = () => {
 
             {/* Geographic Data Card */}
             <Card className="border-2 border-border shadow-lg">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-primary">
+              {/* Header dengan padding yang disesuaikan */}
+              <CardHeader className="p-4 md:p-6 pb-2">
+                <CardTitle className="flex items-center gap-2 text-primary text-lg md:text-xl font-bold">
                   <Compass className="w-5 h-5" />
                   Data Geografis
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-1">
-                <DataRow
-                  label="Lintang"
-                  degrees={latDMS.degrees}
-                  minutes={latDMS.minutes}
-                  seconds={latDMS.seconds}
-                  suffix={lat < 0 ? "LS" : "LU"}
-                />
-                <DataRow
-                  label="Bujur"
-                  degrees={lngDMS.degrees}
-                  minutes={lngDMS.minutes}
-                  seconds={lngDMS.seconds}
-                  suffix={lng < 0 ? "BB" : "BT"}
-                />
+
+              {/* Konten Utama */}
+              <CardContent className="space-y-4 p-4 md:p-6 pt-2">
+                {/* Display Data Lintang & Bujur */}
+                <div className="space-y-3">
+                  {/* Lintang */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Lintang
+                    </span>
+                    {/* Mengganti DataRow dengan format string DMS langsung untuk tampilan yang lebih kompak */}
+                    <span className="text-base font-semibold text-gray-900 dark:text-white">
+                      {`${latDMS.degrees}° ${
+                        latDMS.minutes
+                      }' ${latDMS.seconds.toFixed(2)}"`}{" "}
+                      {lat < 0 ? "LS" : "LU"}
+                    </span>
+                  </div>
+
+                  {/* Bujur */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                      Bujur
+                    </span>
+                    <span className="text-base font-semibold text-gray-900 dark:text-white">
+                      {`${lngDMS.degrees}° ${
+                        lngDMS.minutes
+                      }' ${lngDMS.seconds.toFixed(2)}"`}{" "}
+                      {lng < 0 ? "BB" : "BT"}
+                    </span>
+                  </div>
+                </div>
+                <Separator className="mt-4" />{" "}
+                {/* Pemisah opsional sebelum peta */}
+                {/* Placeholder atau Komponen Peta Mini (sesuai yang ada di gambar) */}
+                <div className="mt-4">
+                  {/* Ganti dengan komponen peta Anda (misalnya MiniMap) atau placeholder statis */}
+                  {/* Untuk hasil yang mirip gambar, gunakan rasio aspek yang tinggi */}
+
+                  {/* Jika Anda menggunakan Image Placeholder: */}
+                  {/* <div className="rounded-lg overflow-hidden h-40 w-full bg-teal-100 flex items-center justify-center">
+        <MapPin className="w-8 h-8 text-teal-600" />
+        <span className="ml-2 text-teal-800">Mini Map View</span>
+      </div> */}
+
+                  {/* Jika Anda memiliki komponen peta */}
+                  {/* <MiniMap
+                    latitude={latitude}
+                    longitude={longitude}
+                    zoom={15}
+                    className="rounded-lg h-40 w-full"
+                  /> */}
+                </div>
               </CardContent>
             </Card>
 
             {/* Qibla Direction Card */}
             <Card className="border-2 border-primary/30 shadow-lg bg-accent/30">
-              <CardHeader className="pb-4">
-                <CardTitle className="flex items-center gap-2 text-primary">
-                  <ArrowRight className="w-5 h-5" />
+              {/* Header yang disesuaikan */}
+              <CardHeader className="p-4 md:p-6 pb-2">
+                <CardTitle className="flex items-center gap-2 text-primary text-lg md:text-xl font-bold">
+                  <ArrowRight className="w-5 h-5 text-primary" />
                   Hasil Perhitungan
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <DataRow
-                  label="Arah Kiblat"
-                  degrees={qiblaDMS.degrees}
-                  minutes={qiblaDMS.minutes}
-                  seconds={qiblaDMS.seconds}
-                  highlight
-                />
-                <Separator />
-                <DataRow
-                  label="Arah Bangunan"
-                  degrees={buildingDMS.degrees}
-                  minutes={buildingDMS.minutes}
-                  seconds={buildingDMS.seconds}
-                />
-                <Separator />
-                <DataRow
-                  label="Penyimpangan"
-                  degrees={deviationDMS.degrees}
-                  minutes={deviationDMS.minutes}
-                  seconds={deviationDMS.seconds}
-                />
-                <div className="pt-2 border-t border-border">
-                  <p className="text-sm text-muted-foreground">
-                    Penyimpangan per 1 meter ={" "}
-                    <span className="font-semibold text-foreground">
-                      {penyimpanganPerMeter.toFixed(2)} cm
+
+              {/* Konten Utama */}
+              <CardContent className="space-y-4 p-4 md:p-6 pt-2">
+                {/* Arah Kiblat (Dibuat lebih menonjol - Mengganti DataRow dengan struktur flex) */}
+                <div className="border-2 border-primary/50 bg-primary/10 rounded-lg p-3">
+                  <div className="flex justify-between items-center">
+                    {/* Label (Rata Kiri) */}
+                    <span className="text-base font-semibold text-gray-700 dark:text-gray-300">
+                      Arah Kiblat
                     </span>
-                  </p>
+                    {/* Nilai (Rata Kanan) */}
+                    <span className="text-lg font-extrabold text-primary dark:text-white">
+                      {`${qiblaDMS.degrees}° ${
+                        qiblaDMS.minutes
+                      }' ${qiblaDMS.seconds.toFixed(1)}"`}
+                    </span>
+                  </div>
                 </div>
+
+                {/* Baris Data Lainnya - Menggunakan struktur flex yang rapi dengan pemisah garis tipis */}
+                <div className="space-y-4 pt-4 border-t border-border">
+                  {/* Arah Bangunan */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-base text-gray-600 dark:text-gray-400">
+                      Arah Bangunan
+                    </span>
+                    <span className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {`${buildingDMS.degrees}° ${
+                        buildingDMS.minutes
+                      }' ${buildingDMS.seconds.toFixed(1)}"`}
+                    </span>
+                  </div>
+                  <Separator /> {/* Pemisah antar baris data */}
+                  {/* Penyimpangan Sudut */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-base text-gray-600 dark:text-gray-400">
+                      Penyimpangan Sudut
+                    </span>
+                    <span className="text-lg font-semibold text-red-600 dark:text-red-400">
+                      {`${deviationDMS.degrees}° ${
+                        deviationDMS.minutes
+                      }' ${deviationDMS.seconds.toFixed(1)}"`}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Detail Penyimpangan per Meter - Menggunakan struktur flex yang rapi */}
+                <div className="pt-4 border-t border-border mt-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-base text-muted-foreground">
+                      Penyimpangan per 1 meter
+                    </span>
+                    <span className="text-lg font-bold text-red-600 dark:text-red-400">
+                      = {penyimpanganPerMeter.toFixed(2)} cm
+                    </span>
+                  </div>
+                </div>
+
+                {/* Tombol Aksi */}
                 <Button
-                  className="w-full mt-2"
+                  className="w-full mt-6 h-12 text-lg font-bold bg-green-500 hover:bg-green-600 shadow-md transition-colors"
                   onClick={() => setIsPrintOpen(true)}
                 >
+                  {/* <Printer className="w-5 h-5 mr-2" /> */}
                   Cetak Sertifikat
                 </Button>
               </CardContent>
